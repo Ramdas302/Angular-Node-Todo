@@ -86,4 +86,30 @@ router.put('/todos',function(req,res){
     })
 })
 
+router.get("/completetodo",function(req,res){
+  TodoModel.find( { status : { $exists: true }  } ,(err, todos)=>
+  {
+     if (err)
+     {
+         res.send(err);
+     }
+     console.log(todos);
+     res.json(todos);
+ 
+  });
+})
+
+router.get('/incompletetodos',(req,res)=>{
+  TodoModel.find({ status:req.query.status},(error,todos)=>{
+     if(error){
+     console.error(error)  
+     }else{
+      res.send({
+         status:200,
+       data:todos
+     }) 
+  }
+})
+})          
+
 module.exports=router;
